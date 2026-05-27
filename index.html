@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+body, html { margin:0; padding:0; height:100%; }
+#map { height:100%; width:100%; }
+.leaflet-control-zoom { display: none !important; }
+#title { position:absolute; top:10px; width:100%; text-align:center; z-index:1000; font-size:20px; font-weight:bold; color:white; text-shadow:2px 2px 4px black; pointer-events:none; }
+#status { position:absolute; bottom:20px; left:10px; z-index:1000; background:rgba(255,255,255,0.9); padding:8px; border-radius:5px; font-size:12px; border:1px solid #333; }
+.zone-label { color:yellow; font-weight:bold; font-size:16px; text-shadow:1px 1px 2px black; }
+#btn { position:absolute; bottom:30px; right:20px; z-index:1000; width:65px; height:65px; background:#FF5722; border-radius:50%; color:white; font-size:30px; border:none; box-shadow:0 0 15px rgba(0,0,0,0.6); cursor:pointer; }
+</style>
+</head>
+<body>
+<div id="title">아산출고 치장장 MAP</div>
+<div id="status">GPS 연결 중...</div>
+<button id="btn" onclick="map.setView(currentPos, 19)">📍</button>
+<div id="map"></div>
+
+<script>
+// 1. 지도 초기 설정
+var map = L.map('map').setView([36.8522, 126.8610], 18);
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}').addTo(map);
+
+var marker = L.circleMarker([0,0], {radius:8, fillColor:'#00FF00', fillOpacity:1, color:'#fff', weight:2}).addTo(map);
+var statusDiv = document.getElementById('status');
+var currentPos = null;
+
+// 2. 치장장 구역 좌표 설정 (범위 오류 수정 완료)
+var zones = [
+{name:"PA", coords:[[36.8525,126.8594],[36.8525,126.8602],[36.8519,126.8602],[36.8517,126.8600],[36.8517,126.8594]], label:[36.8
